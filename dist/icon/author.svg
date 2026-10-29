@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Almara Creatives developer badge</title>
+  <desc id="desc">The initials AC on a jade field with a sunrise and open-book detail, made for Klasama.</desc>
+  <rect width="512" height="512" rx="116" fill="#145747"/>
+  <path d="M0 396 396 0h116L116 512H0Z" fill="#1e6653"/>
+  <path d="M0 462 462 0M0 420 420 0M50 512 512 50" fill="none" stroke="#f6f2e5" stroke-opacity=".06" stroke-width="2"/>
+  <circle cx="402" cy="111" r="32" fill="#e8b84b"/>
+  <path d="M402 58V46M402 176v-12M349 111h-12M467 111h-12M364 73l-9-9M449 158l-9-9M440 73l9-9M355 158l9-9" stroke="#e8b84b" stroke-width="7" stroke-linecap="round"/>
+  <text x="252" y="293" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="176" font-weight="700" letter-spacing="-8" fill="#faf6e9">AC</text>
+  <path d="M202 350c18-8 36-8 54 0 18-8 36-8 54 0v45c-18-8-36-8-54 0-18-8-36-8-54 0Z" fill="#f8f4e7"/>
+  <path d="M256 350v45M213 363c10-3 20-3 31 0M268 363c10-3 20-3 30 0M213 376c10-3 20-3 31 0M268 376c10-3 20-3 30 0" fill="none" stroke="#247b63" stroke-width="3" stroke-linecap="round"/>
+  <path d="M191 411h130" stroke="#e8b84b" stroke-width="5" stroke-linecap="round"/>
+</svg>

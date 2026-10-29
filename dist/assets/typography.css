@@ -1,0 +1,25 @@
+@font-face{font-family:Inter;src:url('./Inter-Variable.ttf') format('truetype');font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:Baskerville;src:local("Baskerville"),url('./Baskerville.ttf') format('truetype');font-weight:400 700;font-style:normal;font-display:swap}
+:root{--font:Inter,"Segoe UI",Arial,sans-serif}
+@media screen{
+ body,body *{font-family:Inter,"Segoe UI",Arial,sans-serif!important;font-optical-sizing:auto}
+ body{letter-spacing:0}
+ h1,h2,h3,h4{letter-spacing:-.4px}
+ .hero h1{font-size:clamp(40px,4.5vw,62px);font-weight:700;line-height:1.1;letter-spacing:-1.5px}
+ :is(.brand,.brand-text h1,.auth-brand-name,.klasama-wordmark,.klasama-about-hero h2,.klasama-notebook strong){font-family:Baskerville,"Libre Baskerville",Georgia,serif!important;letter-spacing:-.4px}
+ .nav-item{font-size:12px!important}.form-control,input,select,textarea{font-size:13px}.btn,.button{font-size:12px}
+ .brand-logo,.auth-brand-logo,.brand-logo.fixed,.auth-brand-logo.fixed{object-fit:contain!important;filter:none!important}.brand img{width:48px;height:48px}
+ input::placeholder,textarea::placeholder{color:transparent!important;opacity:0!important}
+}
+@media(max-width:480px){.hero h1{font-size:43px}}
+@media screen{
+ :root:is([data-theme=dark],[data-theme=navy],[data-theme=noir]) body{color:var(--theme-ink,#edf1e9)}
+ :root:is([data-theme=dark],[data-theme=navy],[data-theme=noir]) :is(.demo,.demo-inner,.tool,.nav){background:var(--theme-deep,#1b2e28d9)!important;border-color:var(--theme-edge,#c7d9cb25)!important}
+ :root:is([data-theme=dark],[data-theme=navy],[data-theme=noir]) :is(p,.small,.eyebrow,.demo-date,.demo-label,.demo-note,.demo-stats span,.ribbon,.footer){color:var(--theme-muted,#bccdbf)}
+ :root:is([data-theme=dark],[data-theme=navy],[data-theme=noir]) h1 span{color:var(--theme-accent,#a1cfb4)}
+ :root[data-theme=sepia] body{background:radial-gradient(ellipse at 10% 10%,#f4e6c3,transparent 55%),#fff5df!important;color:#482c19}
+ :root[data-theme=navy] body{background:radial-gradient(ellipse at 10% 10%,#203a59,transparent 55%),#101e36!important}
+ :root[data-theme=noir] body{background:radial-gradient(ellipse at 90% 10%,#302020,transparent 55%),var(--theme-deep,#090b0a)!important}
+ :root[data-theme=dark] body{background:radial-gradient(ellipse at 10% 10%,var(--theme-surface,#2a3631),transparent 55%),var(--theme-deep,#181d1a)!important}
+}
+@media screen{:root:is([data-theme=dark],[data-theme=navy],[data-theme=noir]) .secondary{color:var(--theme-ink,#edf1e9);background:#ffffff12;border-color:#ffffff40}}

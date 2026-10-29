@@ -1,0 +1,26 @@
+/* Klasama default glass surfaces; opaque fallback for older browsers. */
+:root{--glass-surface:#ffffffd9;--glass-line:#ffffffd9;--glass-shadow:0 12px 40px #174e3c10;--glass-ink:#244537}
+body{background:radial-gradient(ellipse at 5% 5%,var(--theme-soft,#c9e7d8) 0,transparent 48%),radial-gradient(ellipse at 94% 35%,#f4dfab 0,transparent 43%),radial-gradient(ellipse at 50% 95%,var(--theme-soft,#d4e6e0) 0,transparent 54%),var(--theme-soft,#edf3ec)!important;background-attachment:fixed!important}
+:root:is([data-theme=dark],[data-theme=navy],[data-theme=noir]){--glass-surface:#1b3029e8;--glass-line:#9cc6b329;--glass-shadow:0 14px 42px #0002;--glass-ink:#eef6ee}
+:root:is([data-theme=dark],[data-theme=navy],[data-theme=noir]) body{background:radial-gradient(ellipse at 8% 5%,var(--theme-accent,#204e3e),transparent 55%),radial-gradient(ellipse at 95% 75%,var(--theme-surface,#343a25),transparent 50%),var(--theme-deep,#101f19)!important;background-attachment:fixed!important}
+#sidebar{background:var(--glass-surface)!important;border-right:1px solid var(--glass-line);box-shadow:8px 0 35px var(--theme-soft,#174e3c06)}
+#sidebar-footer{background:transparent!important}
+#topbar,.bottom-nav,.notif-panel,.quick-fab-menu,.modal,.auth-card,.card,.dash-widget,.klasama-launch-card,.hero-banner.klasama-desk-hero,.settings-nav-item,.hub-card,.demo-inner,.tool,.demo,.nav{background:var(--glass-surface)!important;border:1px solid var(--glass-line)!important;box-shadow:var(--glass-shadow)!important}
+#topbar{border-top:0!important;border-left:0!important;border-right:0!important}
+.hero-banner.klasama-desk-hero,.card,.dash-widget,.auth-card,.tool{border-radius:20px}
+.dash-widget-head{background:transparent!important}
+.hero-banner.klasama-desk-hero::before{background:linear-gradient(#e5be61,var(--theme-soft,#abd8bf));width:4px}
+.klasama-launch-card,.settings-nav-item,.hub-card{border-radius:15px}
+.klasama-launch-card:hover,.tool:hover{box-shadow:0 16px 40px var(--theme-soft,#174e3c18)!important;border-color:var(--theme-edge,#a8cdbb)!important}
+.btn-primary,.primary,.quick-fab-main{background:linear-gradient(130deg,var(--theme-accent,#1e765c),var(--theme-accent,#145747))!important;border-color:#ffffff40!important;box-shadow:inset 0 1px 0 #ffffff32,0 5px 14px var(--theme-soft,#14574718)!important}
+.btn-outline,.secondary,.topbar-class,.hero-class-chip{background:#ffffff40;border:1px solid var(--glass-line);box-shadow:inset 0 1px 0 #fff5}
+.nav-item.active{box-shadow:inset 0 1px 0 #ffffff30,0 5px 15px var(--theme-soft,#14574718)!important}
+.auth-bg-mesh{background:transparent!important}.auth-screen{background:transparent!important}
+.demo{background:var(--theme-soft,#d9e9df66)!important}.demo-inner{background:#ffffffe8!important}.demo-row{border-bottom-color:var(--theme-edge,#c8d8cb80)}.demo-stats,.ribbon,.footer{border-color:var(--theme-edge,#b8ccbd80)}
+.nav{padding:15px 20px;margin-top:18px;border-radius:18px}.navlinks .button{box-shadow:inset 0 1px 0 #fff3}
+.license{background:linear-gradient(120deg,var(--theme-accent,#145747ed),var(--theme-accent,#296952ed));box-shadow:0 18px 50px var(--theme-soft,#14574720),inset 0 1px 0 #ffffff35;border:1px solid #ffffff60}
+:root:is([data-theme=dark],[data-theme=navy],[data-theme=noir]) .btn-outline,:root:is([data-theme=dark],[data-theme=navy],[data-theme=noir]) .topbar-class,:root:is([data-theme=dark],[data-theme=navy],[data-theme=noir]) .hero-class-chip{background:var(--theme-soft,#a8d1b610);color:var(--text)}
+@supports(backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px)){#sidebar,#topbar,.bottom-nav,.notif-panel,.quick-fab-menu,.modal,.auth-card,.card,.dash-widget,.klasama-launch-card,.settings-nav-item,.hub-card,.hero-banner.klasama-desk-hero,.demo,.demo-inner,.tool,.nav{background-color:#ffffff9e!important;-webkit-backdrop-filter:blur(22px) saturate(125%);backdrop-filter:blur(22px) saturate(125%)}:root:is([data-theme=dark],[data-theme=navy],[data-theme=noir]) :is(#sidebar,#topbar,.bottom-nav,.notif-panel,.quick-fab-menu,.modal,.auth-card,.card,.dash-widget,.klasama-launch-card,.settings-nav-item,.hub-card,.hero-banner.klasama-desk-hero){background:var(--theme-deep,#1b3029cf)!important}}
+@media(max-width:768px){.nav{padding:12px;margin-top:12px}.navlinks .button{padding:10px}.hero-banner.klasama-desk-hero,.card,.dash-widget{border-radius:17px}#topbar,.bottom-nav{-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}}
+@media(prefers-reduced-transparency:reduce){#sidebar,#topbar,.bottom-nav,.notif-panel,.quick-fab-menu,.modal,.auth-card,.card,.dash-widget,.klasama-launch-card,.settings-nav-item,.hub-card,.hero-banner.klasama-desk-hero,.demo,.demo-inner,.tool,.nav{background:var(--card,#fffef9)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}}
+@media print{body{background:white!important}.card,.dash-widget{background:white!important;backdrop-filter:none!important;box-shadow:none!important}}

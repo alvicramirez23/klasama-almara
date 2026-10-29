@@ -1,0 +1,1 @@
+(()=>{try{const allowed=['light','sepia','deped-green','dark','navy','noir'];const theme=localStorage.getItem('klazassist.theme');document.documentElement.dataset.theme=allowed.includes(theme)?theme:'light'}catch{document.documentElement.dataset.theme='light'}})();

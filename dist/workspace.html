@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="./assets/theme-init.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#145747">
+<!-- PWA -->
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Klasama">
+<link rel="apple-touch-icon" href="./assets/klasama-current-192.png">
+<meta name="referrer" content="no-referrer">
+
+<!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://image.pollinations.ai https://api.kavel.ai; font-src 'self' data:; connect-src 'self' https://generativelanguage.googleapis.com https://image.pollinations.ai https://api.kavel.ai https://api.web3forms.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net;; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"> -->
+<script src="./vendor/pdf.min.js" defer></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<title>Klasama · Katuwang mo sa bawat klase.</title>
+<meta name="description" content="Klasama — Katuwang mo sa bawat klase. Your everyday Filipino teacher workspace for learners, attendance, grading, lesson planning, classroom tools, and school forms.">
+<!-- Klasama Favicon -->
+<link rel="icon" type="image/svg+xml" href="./assets/klasama-app-icon.svg">
+
+<!-- Optional fallback -->
+<link rel="shortcut icon" href="./assets/klasama-app-icon.svg">
+
+
+  <script type="module" src="./assets/app.js"></script>
+  <link rel="stylesheet" href="./assets/app.css">
+<link rel="stylesheet" href="./assets/klasama.css?v=klasama-1.2.0">
+<link rel="stylesheet" href="./assets/glass.css?v=1.3.0"><link rel="stylesheet" href="./assets/typography.css?v=1.7.0"><script src="./assets/ui-font.js" defer></script><script src="./assets/brand-theme.js" defer></script><link rel="stylesheet" href="./assets/pro.css?v=1.7.0"><link rel="stylesheet" href="./assets/theme-palettes.css?v=1.8.3"></head>
+<body>
+<noscript><p style="font-family:sans-serif;padding:24px;text-align:center;">Klasama needs JavaScript enabled to run.</p></noscript>
+
+<div id="loading-screen" class="loading-screen">
+
+  <div class="loader-orb" role="img" aria-label="Klasama is loading">
+
+    <!-- Outer glow halo -->
+    <div class="loader-halo"></div>
+
+    <!-- Rotating rings -->
+    <div class="loader-ring loader-ring-1"></div>
+    <div class="loader-ring loader-ring-2"></div>
+    <div class="loader-ring loader-ring-3"></div>
+
+    <!-- Orbiting satellites -->
+    <div class="loader-orbit loader-orbit-1"><span></span></div>
+    <div class="loader-orbit loader-orbit-2"><span></span></div>
+    <div class="loader-orbit loader-orbit-3"><span></span></div>
+
+    <!-- Floating sparkles -->
+    <div class="loader-sparkles">
+      <span class="loader-spark s1"></span>
+      <span class="loader-spark s2"></span>
+      <span class="loader-spark s3"></span>
+      <span class="loader-spark s4"></span>
+      <span class="loader-spark s5"></span>
+      <span class="loader-spark s6"></span>
+    </div>
+
+    <!-- Core sphere with the Klasama icon -->
+    <div class="loader-core">
+      <div class="loader-pulse"></div>
+      <img class="loader-icon" src="./assets/klasama-mark.svg" alt="" width="62" height="62">
+    </div>
+
+  </div>
+
+  <p class="loading-text" id="loading-text">Initializing local database…</p>
+
+  <div class="loading-progress-bar">
+    <div class="loading-progress-fill"></div>
+  </div>
+
+</div>
+
+<!-- ============================================================
+     DATABASE ERROR SCREEN
+     ============================================================ -->
+<div id="db-error-screen" class="loading-screen hidden" style="padding:20px;">
+  <div style="max-width:520px;text-align:center;position:relative;z-index:1;">
+    <div style="width:64px;height:64px;border-radius:50%;background:rgba(220,53,69,0.12);color:var(--danger);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+    </div>
+    <h2 style="font-size:20px;margin-bottom:8px;">Local database could not be opened</h2>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">
+      Klasama stores your data locally in this browser using IndexedDB. Possible causes:
+    </p>
+    <ul style="text-align:left;font-size:13px;color:var(--text-muted);margin:0 auto 20px;max-width:420px;line-height:1.8;">
+      <li>Private / Incognito browsing mode</li>
+      <li>Browser storage restrictions or low disk space</li>
+      <li>Browser privacy or security settings blocking storage</li>
+      <li>Another tab is holding an incompatible database version</li>
+    </ul>
+    <div class="recovery-actions">
+      <button class="btn btn-primary" onclick="DB.retryInit()">Retry</button>
+      <button class="btn btn-outline" onclick="location.reload()">Reload Application</button>
+      <button class="btn btn-outline" onclick="App.showStorageHelp()">Diagnose Storage</button>
+      <button class="btn btn-outline" onclick="App.showRestoreFromError()">Restore Backup</button>
+    </div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:16px;">
+      Your existing data has NOT been deleted.
+    </p>
+  </div>
+</div>
+
+<!-- ============================================================
+     LOGIN SCREEN
+     ============================================================ -->
+<div id="login-screen" class="auth-screen hidden">
+  <div class="auth-bg-mesh"></div>
+  <div class="auth-bg-blob b1"></div>
+  <div class="auth-bg-blob b2"></div>
+  <div class="auth-bg-blob b3"></div>
+  <div class="auth-split">
+    <aside class="auth-brand" aria-hidden="true">
+      <div class="auth-brand-top">
+        <img class="auth-brand-logo" src="./assets/klasama-mark.svg" alt="Klasama" style="width:46px;height:46px;">
+        <div>
+          <div class="auth-brand-name">Klasama</div>
+          <div class="auth-brand-tag">Katuwang mo sa bawat klase.</div>
+        </div>
+      </div>
+      <div class="auth-brand-mid">
+        <h1>Mas magaan ang<br>pagtuturo kapag<br>may kasama.</h1>
+        <p class="lead">Meet your everyday teaching companion. Learners, attendance, grades, and classroom tools — together in one private workspace, made for Filipino teachers.</p>
+        <div class="auth-features-grid">
+          <div class="auth-feature-card">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <div><strong>Offline-first</strong><span>Works with no internet connection — all data stays on this device.</span></div>
+          </div>
+          <div class="auth-feature-card">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            <div><strong>Private by design</strong><span>No automatic uploads, no analytics, no third-party trackers.</span></div>
+          </div>
+          <div class="auth-feature-card">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 7a4 4 0 100 8 4 4 0 000-8zM23 21v-2a4 4 0 00-3-3.87"/></svg>
+            <div><strong>Teacher-focused tools</strong><span>Attendance, gradebook, seat plans, lesson plans, and random pickers.</span></div>
+          </div>
+          <div class="auth-feature-card">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+            <div><strong>Local application lock</strong><span>Password-protect this application on this device. Honest about limits.</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="auth-brand-foot">
+        <div>Data is stored locally in your browser. Klasama is not an official DepEd system unless officially authorized.</div>
+        <div>Klasama · Katuwang mo sa bawat klase.</div>
+      </div>
+    </aside>
+
+    <section class="auth-form-panel">
+      <div class="auth-card" role="form" aria-labelledby="login-title">
+        <div class="auth-logo-row">
+          <img class="brand-logo fixed" src="./assets/klasama-mark.svg" alt="Klasama" style="width:44px;height:44px;">
+        </div>
+        <h2 id="login-title">Welcome back to Klasama</h2>
+        <p class="auth-sub" id="login-sub">Katuwang mo sa bawat klase.</p>
+
+        <div id="login-error" class="auth-error" role="alert" aria-live="polite"></div>
+
+        <form id="login-form" novalidate>
+          <div class="auth-field">
+            <label for="login-username">Username</label>
+            <div class="input-wrap">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <input type="text" id="login-username" name="username" autocomplete="username" autocapitalize="off" spellcheck="false" required aria-required="true">
+            </div>
+          </div>
+
+          <div class="auth-field">
+            <label for="login-password">Password</label>
+            <div class="input-wrap">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+              <input type="password" id="login-password" name="password" autocomplete="current-password" required aria-required="true">
+              <button type="button" class="pw-toggle" id="login-pw-toggle" aria-label="Show password" aria-pressed="false">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="auth-row">
+            <label class="auth-check">
+              <input type="checkbox" id="login-remember">
+              <span>Remember this device</span>
+            </label>
+            <a href="#" class="auth-link" id="login-recovery-link">Account recovery</a>
+          </div>
+
+          <button type="submit" class="auth-submit" id="login-submit">
+            <span id="login-submit-label">Sign In</span>
+          </button>
+        </form>
+
+        <div id="recovery-panel" class="auth-recovery" style="margin-top:16px;">
+          <div class="divider"></div>
+          <h4 style="font-size:13px;font-weight:700;margin-bottom:6px;">Account recovery</h4>
+          <p class="text-xs text-muted" style="margin-bottom:10px;">
+            Because this application is offline-only and has no server, there is no email-based password reset.
+            Enter your recovery key below to reset your password on this device.
+          </p>
+          <div class="auth-field">
+            <label for="recovery-key-input">Recovery key</label>
+            <div class="input-wrap">
+              <input type="text" id="recovery-key-input" autocapitalize="characters" spellcheck="false">
+            </div>
+          </div>
+          <div class="auth-field">
+            <label for="recovery-new-pw">New password</label>
+            <div class="input-wrap">
+              <input type="password" id="recovery-new-pw" autocomplete="new-password">
+            </div>
+          </div>
+          <div class="auth-field">
+            <label for="recovery-new-pw-confirm">Confirm new password</label>
+            <div class="input-wrap">
+              <input type="password" id="recovery-new-pw-confirm" autocomplete="new-password">
+            </div>
+          </div>
+          <div id="recovery-error" class="auth-error" role="alert" aria-live="polite"></div>
+          <div class="flex gap-8">
+            <button type="button" class="btn btn-outline" id="recovery-cancel">Cancel</button>
+            <button type="button" class="btn btn-primary" id="recovery-submit" style="flex:1;">Reset Password</button>
+          </div>
+        </div>
+
+        <div class="auth-notice" role="note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+          <div><strong>Local application lock.</strong> This protects the app on this device. It is not equivalent to enterprise single sign-on (Microsoft Entra, Google Workspace, LDAP, etc.).</div>
+        </div>
+
+        <div class="auth-foot">
+        <div>Klasama</div>
+          <div>
+            <a href="#" onclick="App.showStorageHelp();return false;">Storage Help</a>·
+            <a href="#" onclick="App.showPrivacyNotice();return false;">Privacy</a>·
+            <a href="#" onclick="App.showAbout();return false;">About</a>
+          </div>
+            <a href="#" id="login-link-verify">Verify Certificate</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ============================================================
+     FIRST-RUN SETUP WIZARD
+     ============================================================ -->
+<div id="setup-screen" class="auth-screen hidden">
+  <div class="auth-bg-mesh"></div>
+  <div class="auth-bg-blob b1"></div>
+  <div class="auth-bg-blob b2"></div>
+  <div style="position:relative;z-index:1;display:flex;align-items:center;justify-content:center;padding:24px;width:100%;">
+    <div class="setup-shell">
+      <div class="auth-card" style="max-width:none;">
+        <div class="setup-header">
+          <img class="brand-logo fixed" src="./assets/klasama-mark.svg" alt="Klasama" style="width:64px;height:64px;margin:0 auto 14px;">
+          <div class="klasama-wordmark">Klasama</div>
+          <p class="klasama-tagline">Katuwang mo sa bawat klase.</p>
+          <h1>Set up your local account</h1>
+          <p>Klasama stores everything locally. Your password never leaves this device.</p>
+        </div>
+        <div class="setup-steps" id="setup-steps">
+          <div class="step active"></div><div class="step"></div><div class="step"></div><div class="step"></div>
+        </div>
+
+        <div class="setup-step active" data-step="1">
+          <div class="alert alert-info" style="margin-bottom:16px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+            <div>Your data stays on this device. Klasama does not upload your learner records. Anyone with access to your unlocked browser profile could access locally stored data — use device security and app locking.</div>
+          </div>
+          <p class="text-sm text-muted mb-16">Create a password to protect this application on this device. Choose something you'll remember; there is no email reset.</p>
+          <button class="btn btn-primary btn-lg btn-block" data-next>Continue</button>
+        </div>
+
+        <div class="setup-step" data-step="2">
+          <div class="form-group">
+            <label for="setup-name">Your name <span class="req">*</span></label>
+            <input class="form-control" id="setup-name" autocomplete="name">
+          </div>
+          <div class="form-group">
+            <label for="setup-username">Username <span class="req">*</span></label>
+            <input class="form-control" id="setup-username" autocomplete="username" autocapitalize="off" spellcheck="false">
+          </div>
+          <div class="form-group">
+            <label for="setup-password">Password <span class="req">*</span></label>
+            <input type="password" class="form-control" id="setup-password" autocomplete="new-password">
+            <div class="pw-strength" id="setup-pw-strength" style="display:none;">
+              <div class="pw-strength-bar" data-level="0"><span></span><span></span><span></span><span></span></div>
+              <div class="pw-strength-label">Strength</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="setup-password2">Confirm password <span class="req">*</span></label>
+            <input type="password" class="form-control" id="setup-password2" autocomplete="new-password">
+          </div>
+          <div id="setup-step2-error" class="auth-error" role="alert" aria-live="polite"></div>
+          <div class="flex gap-8">
+            <button class="btn btn-outline" data-prev>Back</button>
+            <button class="btn btn-primary" data-next style="flex:1;">Continue</button>
+          </div>
+        </div>
+
+        <div class="setup-step" data-step="3">
+          <h3 style="font-size:15px;margin-bottom:6px;">Security preferences</h3>
+          <p class="text-sm text-muted mb-16">You can change these later in Settings → Security.</p>
+          <div class="form-group">
+            <label for="setup-autolock">Auto-lock after inactivity</label>
+            <select class="form-control" id="setup-autolock">
+              <option value="0">Never</option>
+              <option value="300">5 minutes</option>
+              <option value="600">10 minutes</option>
+              <option value="900" selected>15 minutes</option>
+              <option value="1800">30 minutes</option>
+              <option value="3600">1 hour</option>
+            </select>
+          </div>
+          <label class="auth-check" style="margin-bottom:10px;">
+            <input type="checkbox" id="setup-remember" checked>
+            <span>Remember this device (auto-resume within session window)</span>
+          </label>
+          <label class="auth-check" style="margin-bottom:16px;">
+            <input type="checkbox" id="setup-genrecovery" checked>
+            <span>Generate a recovery key (recommended)</span>
+          </label>
+          <div class="flex gap-8">
+            <button class="btn btn-outline" data-prev>Back</button>
+            <button class="btn btn-primary" data-next style="flex:1;">Continue</button>
+          </div>
+        </div>
+
+        <div class="setup-step" data-step="4">
+          <h3 style="font-size:15px;margin-bottom:6px;">Your recovery key</h3>
+          <p class="text-sm text-muted mb-12">Store this somewhere safe. If you lose both your password and this key, access to the local application cannot be recovered.</p>
+          <div class="recovery-key" id="setup-recovery-display">—</div>
+          <div class="flex gap-8 mt-12" style="flex-wrap:wrap;">
+            <button class="btn btn-outline btn-sm" id="setup-copy-key" type="button">Copy</button>
+            <button class="btn btn-outline btn-sm" id="setup-download-key" type="button">Download .txt</button>
+            <button class="btn btn-outline btn-sm" id="setup-print-key" type="button">Print</button>
+          </div>
+          <div class="divider"></div>
+          <label class="auth-check mb-16">
+            <input type="checkbox" id="setup-ack">
+            <span>I have saved my recovery key in a safe place.</span>
+          </label>
+          <div id="setup-step4-error" class="auth-error" role="alert" aria-live="polite"></div>
+          <div class="flex gap-8">
+            <button class="btn btn-outline" data-prev>Back</button>
+            <button class="btn btn-primary" id="setup-finish" style="flex:1;" disabled>Finish setup</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     LOCK SCREEN
+     ============================================================ -->
+<div id="lock-screen" class="lock-screen">
+  <div class="auth-bg-mesh"></div>
+  <div class="lock-card">
+
+    <!-- Klasama badge — half-outside the top edge -->
+    <div class="lock-brand" aria-hidden="true">
+      <div class="lock-brand-halo"></div>
+      <div class="lock-brand-ring lock-brand-ring-1"></div>
+      <div class="lock-brand-ring lock-brand-ring-2"></div>
+      <div class="lock-brand-ring lock-brand-ring-3"></div>
+      <div class="lock-brand-orbit lock-brand-orbit-1"><span></span></div>
+      <div class="lock-brand-orbit lock-brand-orbit-2"><span></span></div>
+      <div class="lock-brand-orbit lock-brand-orbit-3"><span></span></div>
+      <div class="lock-brand-sparkles">
+        <span class="lock-brand-spark s1"></span>
+        <span class="lock-brand-spark s2"></span>
+        <span class="lock-brand-spark s3"></span>
+        <span class="lock-brand-spark s4"></span>
+      </div>
+      <div class="lock-brand-core">
+        <img src="./assets/klasama-mark.svg" alt="">
+      </div>
+    </div>
+
+    <div class="lock-hero">
+      <div class="lock-avatar" id="lock-avatar">?</div>
+    </div>
+
+    <h3 id="lock-name">Session Locked</h3>
+    <p class="lock-sub">Enter your password to unlock.</p>
+
+    <div id="lock-error" class="auth-error" role="alert" aria-live="polite"></div>
+
+    <form id="lock-form" novalidate>
+      <div class="auth-field">
+        <label for="lock-password" class="sr-only">Password</label>
+        <div class="input-wrap">
+          <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          <input type="password" id="lock-password" autocomplete="current-password">
+          <button type="button" class="pw-toggle" id="lock-pw-toggle" aria-label="Show password" aria-pressed="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+      </div>
+      <button type="submit" class="auth-submit" id="lock-submit">
+        <span id="lock-submit-label">Unlock</span>
+      </button>
+    </form>
+
+    <div class="lock-actions">
+      <button class="btn btn-outline" id="lock-logout">Log out</button>
+    </div>
+    <div class="auth-foot" style="margin-top:14px;">
+      <div>Your saved classroom data stays on this device.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     APPLICATION
+     ============================================================ -->
+<div id="app" class="hidden">
+  <div id="sidebar-backdrop"></div>
+  <aside id="sidebar">
+    <div class="brand">
+      <img class="brand-logo fixed" src="./assets/klasama-mark.svg" alt="Klasama" style="width:38px;height:38px;">
+      <div class="brand-text">
+        
+        <h1>Klasama</h1>
+        <p>KATUWANG MO SA BAWAT KLASE.</p>
+      </div>
+    </div>
+    <nav id="sidebar-nav"></nav>
+  <div id="sidebar-footer"><a class="klasama-mobile-home btn btn-ghost" href="./">Klasama home</a>
+    <div class="sidebar-footer-actions">
+      <button type="button" class="sidebar-footer-btn" id="sidebar-lock-btn"
+              title="Lock the app (session remains active)"
+              aria-label="Lock application">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="11" width="18" height="11" rx="2"/>
+          <path d="M7 11V7a5 5 0 0110 0v4"/>
+        </svg>
+        <span>Lock</span>
+      </button>
+      <button type="button" class="sidebar-footer-btn" id="sidebar-logout-btn"
+              title="Log out of this device"
+              aria-label="Log out">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+          <path d="M16 17l5-5-5-5"/>
+          <path d="M21 12H9"/>
+        </svg>
+        <span>Log out</span>
+      </button>
+    </div>
+    <div class="sidebar-footer-meta">
+      <span>Klasama</span>
+      <span id="db-status-dot" title="Database status"
+            style="width:8px;height:8px;border-radius:50%;background:#4ade80;display:inline-block;"></span>
+    </div>
+  </div>
+  </aside>
+
+  <div id="main-wrap">
+    <header id="topbar">
+      <button class="icon-btn" id="mobile-menu-btn" aria-label="Open menu" onclick="App.toggleSidebar()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+      <div class="topbar-title">
+        <div id="topbar-page-title">Today</div>
+        <span id="topbar-page-sub">Your workspace</span>
+      </div>
+      <a href="./" class="btn btn-ghost btn-sm klasama-home-link" style="margin-left:8px">Klasama home</a><div class="topbar-spacer"></div>
+      <button class="security-pill" id="security-pill" onclick="App.openSecuritySettings()" title="Session security">
+        <span class="dot"></span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span class="label" id="security-pill-text">Protected</span>
+      </button>
+      <button class="topbar-class" id="topbar-class-selector" onclick="App.openClassSelector()" title="Switch active class">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 7a4 4 0 100 8 4 4 0 000-8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        <span id="topbar-class-name">No Class</span>
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <button class="icon-btn" id="theme-toggle" onclick="App.toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="theme-icon"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <button class="icon-btn" id="notif-btn" onclick="App.toggleNotifications()" aria-label="Notifications">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+        <span class="dot hidden" id="notif-dot"></span>
+      </button>
+      <button class="icon-btn hidden" id="install-btn" onclick="App.promptInstall()"
+              aria-label="Install Klasama" title="Install Klasama for offline use">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+          <path d="M7 10l5 5 5-5"/>
+          <path d="M12 15V3"/>
+        </svg>
+      </button>
+    </header>
+    <main id="content"></main>
+    <div class="notif-panel" id="notif-panel">
+      <div class="notif-head">
+        <h4>Notifications</h4>
+        <button class="btn btn-ghost btn-sm" onclick="App.clearNotifications()">Clear all</button>
+      </div>
+      <div id="notif-list"></div>
+    </div>
+  </div>
+
+  <div class="quick-fab" id="quick-fab">
+    <div class="quick-fab-menu">
+      <button onclick="App.quickAction('learner')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 7a4 4 0 100 8 4 4 0 000-8zM20 8v6M23 11h-6"/></svg> Add Learner</button>
+      <button onclick="App.quickAction('attendance')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg> Record Attendance</button>
+      <button onclick="App.quickAction('assessment')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg> New Assessment</button>
+      <button onclick="App.quickAction('assignment')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg> New Assignment</button>
+      <button onclick="App.quickAction('note')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6"/></svg> New Note</button>
+      <button onclick="App.quickAction('lesson')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2zM22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg> Lesson Plan</button>
+      <button onclick="App.quickAction('lessonAI')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/>
+          <path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
+        </svg>
+        Lesson Plan (AI)
+      </button>
+      <button onclick="App.quickAction('examAI')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+          <path d="M14 2v6h6"/>
+          <path d="M9 13h6M9 17h3"/>
+        </svg>
+        Exam Builder (AI)
+      </button>
+      <button onclick="Session.lock()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> Lock App</button>
+    </div>
+    <button class="quick-fab-main" onclick="App.toggleQuickFab()" aria-label="Create or record" title="Create or record">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+    </button>
+  </div>
+
+  <nav class="bottom-nav">
+    <div class="bottom-nav-inner">
+      <button data-nav="dashboard" onclick="App.navigate('dashboard')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
+        <span>Home</span>
+      </button>
+      <button data-nav="learners" onclick="App.navigate('learners')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 7a4 4 0 100 8 4 4 0 000-8zM23 21v-2a4 4 0 00-3-3.87"/></svg>
+        <span>Class</span>
+      </button>
+      <button data-nav="attendance" onclick="App.navigate('attendance')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        <span>Attendance</span>
+      </button>
+      <button data-nav="gradebook" onclick="App.navigate('gradebook')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
+        <span>Grades</span>
+      </button>
+      <button data-nav="more" onclick="App.openMoreMenu()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+        <span>More</span>
+      </button>
+    </div>
+  </nav>
+</div>
+
+<!-- Session warning -->
+<div class="session-warning" id="session-warning" role="alertdialog" aria-labelledby="session-warning-title" aria-live="polite">
+  <h4 id="session-warning-title">Session about to lock</h4>
+  <p>You have been inactive. The application will lock in <strong id="session-warning-secs">60</strong> seconds.</p>
+  <div class="actions">
+    <button class="btn btn-primary btn-sm" id="session-stay">Stay signed in</button>
+    <button class="btn btn-outline btn-sm" id="session-lock-now">Lock now</button>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<div class="autosave-indicator" id="autosave-indicator"><span class="dot"></span><span id="autosave-text">Saved</span></div>
+<div id="modal-root"></div>
+<div id="print-area"></div>
+
+
+<!-- ============================================================
+     PWA — Service Worker registration
+     Place AFTER the main app script so it never blocks startup.
+     ============================================================ -->
+<script>
+(function registerKlasamaServiceWorker() {
+  if (!('serviceWorker' in navigator)) return;
+
+  // ---- Dev-host guard ----
+  // A registered SW intercepts every fetch on its origin — including Vite's
+  // module pipeline (/src/**, /@vite/**, /@fs/**). That breaks HMR and makes
+  // `.ts` files appear as text/html. Skip registration on any local dev host
+  // so `npm run dev` and `vite preview` stay clean. Production (real domain,
+  // https) still registers normally.
+  var host = location.hostname;
+  var port = location.port;
+  var isDevHost =
+    host === 'localhost' ||
+    host === '127.0.0.1' ||
+    host === '[::1]' ||
+    host === '' /* file:// — no SW support anyway */ ||
+    port === '5173' /* Vite dev   */ ||
+    port === '4173' /* Vite preview */;
+  if (isDevHost) return;
+
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('./sw.js', { scope: './' })
+      .then(function (reg) {
+        console.log('[Klasama] Service worker ready. Scope:', reg.scope);
+
+        if (reg.waiting && navigator.serviceWorker.controller) {
+          window.dispatchEvent(new CustomEvent('klaz:update-ready'));
+        }
+
+        reg.addEventListener('updatefound', function () {
+          var nw = reg.installing;
+          if (!nw) return;
+          nw.addEventListener('statechange', function () {
+            if (nw.state === 'installed' && navigator.serviceWorker.controller) {
+              window.dispatchEvent(new CustomEvent('klaz:update-ready'));
+            }
+          });
+        });
+      })
+      .catch(function (err) {
+        console.warn('[Klasama] SW registration failed:', err);
+      });
+
+    var refreshing = false;
+    navigator.serviceWorker.addEventListener('controllerchange', function () {
+      if (refreshing) return;
+      refreshing = true;
+      window.dispatchEvent(new CustomEvent('klaz:update-ready'));
+    });
+  });
+})();
+</script>
+
+<!-- ============================================================
+     PWA — Install prompt capture
+     Must run early; Chrome fires beforeinstallprompt only once.
+     ============================================================ -->
+<script>
+window.addEventListener('beforeinstallprompt', function (e) {
+  e.preventDefault();
+  window.__klazInstallPrompt = e;
+  console.log('[Klasama] Install prompt captured.');
+});
+
+window.addEventListener('appinstalled', function () {
+  window.__klazInstallPrompt = null;
+  console.log('[Klasama] App installed.');
+});
+</script>
+
+  <!-- Invisible font primer: ensures the browser downloads the
+     letterhead font on screen, so the print renderer has it cached. -->
+<div aria-hidden="true" style="
+  position: fixed;
+  top: 0; left: 0;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  font-family: 'UnifrakturMaguntia', serif;
+  font-size: 16px;
+  z-index: -1;
+">
+  Republic of the Philippines<br>Department of Education
+</div>
+</body>
+</html>
